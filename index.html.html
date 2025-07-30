@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>多摩大学履歴書（電子版）作成について</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6; /* Light gray background */
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 1.5rem;
+            background-color: #ffffff;
+            border-radius: 12px; /* Rounded corners */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .warning-box {
+            background-color: #fef2f2; /* Light red background */
+            border-left: 8px solid #ef4444; /* Red left border */
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+        .warning-icon {
+            color: #ef4444; /* Red icon */
+            font-size: 2.5rem;
+            line-height: 1;
+        }
+        .section-title {
+            color: #1f2937; /* Dark gray for titles */
+            border-bottom: 2px solid #e5e7eb; /* Light gray border under titles */
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .step-item {
+            background-color: #f9fafb; /* Very light gray for step items */
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+        .step-number {
+            background-color: #3b82f6; /* Blue background for numbers */
+            color: #ffffff;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        .tip-box {
+            background-color: #eff6ff; /* Light blue background for tips */
+            border-left: 6px solid #3b82f6; /* Blue left border */
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1.5rem;
+        }
+        a {
+            color: #2563eb; /* Blue link color */
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        /* Workflow specific styles */
+        .workflow-container {
+            display: flex;
+            flex-wrap: wrap; /* Allows items to wrap on smaller screens */
+            gap: 1rem;
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+            justify-content: center; /* Center items when they wrap */
+        }
+        .workflow-step {
+            flex: 1 1 calc(33% - 1rem); /* Roughly 3 items per row, responsive */
+            min-width: 280px; /* Minimum width for each step */
+            background-color: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 1.25rem;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            text-align: center;
+            position: relative;
+        }
+        .workflow-step-number {
+            background-color: #60a5fa; /* Lighter blue for workflow numbers */
+            color: #ffffff;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            font-size: 1.25rem;
+            position: absolute;
+            top: -18px;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 2px solid #ffffff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .workflow-arrow {
+            font-size: 2rem;
+            color: #9ca3af; /* Gray arrow color */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 0.5rem;
+            /* Hide arrow on small screens if steps wrap */
+            display: none;
+        }
+        @media (min-width: 768px) { /* Show arrow on medium screens and up */
+            .workflow-arrow {
+                display: flex;
+            }
+            .workflow-step {
+                flex: 1 1 calc(25% - 1rem); /* Adjust for more items on wider screens */
+            }
+        }
+        @media (min-width: 1024px) { /* Adjust for even wider screens */
+            .workflow-step {
+                flex: 1 1 calc(20% - 1rem); /* More items on very wide screens */
+            }
+        }
+
+        .info-box {
+            background-color: #e0f2fe; /* Lighter blue for general info */
+            border-left: 6px solid #0ea5e9; /* Sky blue left border */
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1.5rem;
+        }
+        .download-button {
+            display: block;
+            width: fit-content;
+            margin: 1.5rem auto 0.5rem auto; /* Adjusted margin */
+            padding: 1rem 2rem;
+            background-color: #10b981; /* Green color */
+            color: white;
+            font-size: 1.25rem;
+            font-weight: bold;
+            border-radius: 10px;
+            text-align: center;
+            text-decoration: none;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: background-color 0.3s ease;
+        }
+        .download-button:hover {
+            background-color: #059669; /* Darker green on hover */
+        }
+        .faq-item {
+            background-color: #f9fafb;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            border: 1px solid #e5e7eb;
+        }
+        .faq-question {
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 0.5rem;
+        }
+        .faq-answer {
+            color: #4b5563;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-3xl font-bold text-center mb-6 text-gray-800">多摩大学履歴書（電子版）作成について</h1>
+        <p class="text-center text-gray-600 mb-8">このガイドでは、提供されたPDF形式の履歴書をスムーズにご利用いただくための重要なポイントを説明します。</p>
+
+        <!-- Workflow Section (Moved to top) -->
+        <h2 class="text-2xl font-bold section-title mt-8 mb-4">1. ワークフロー</h2>
+        <p class="mb-4 text-gray-700">
+            以下のステップに沿って、PDF履歴書を作成しましょう。
+        </p>
+
+        <div class="workflow-container">
+            <div class="workflow-step">
+                <div class="workflow-step-number">1</div>
+                <h3 class="text-lg font-semibold text-gray-800 mt-2 mb-1">Adobe Readerの準備</h3>
+                <p class="text-gray-600 text-sm">
+                    Adobe Acrobat Reader DCのダウンロードとインストールを行います。<br>
+                    <strong class="text-red-600">※一度インストールすればOKです。</strong>
+                </p>
+            </div>
+            <div class="workflow-arrow">→</div>
+            <div class="workflow-step">
+                <div class="workflow-step-number">2</div>
+                <h3 class="text-lg font-semibold text-gray-800 mt-2 mb-1">履歴書PDFのダウンロード</h3>
+                <p class="text-gray-600 text-sm">
+                    本ページ下段のリンクからPDF履歴書をダウンロードします。<br>
+                    <strong class="text-red-600">※必ず必要な操作です。</strong>
+                </p>
+            </div>
+            <div class="workflow-arrow">→</div>
+            <div class="workflow-step">
+                <div class="workflow-step-number">3</div>
+                <h3 class="text-lg font-semibold text-gray-800 mt-2 mb-1">PDF履歴書の入力</h3>
+                <p class="text-gray-600 text-sm">
+                    テキストのコピー＆ペーストで効率よく入力します。
+                </p>
+            </div>
+            <div class="workflow-arrow">→</div>
+            <div class="workflow-step">
+                <div class="workflow-step-number">4</div>
+                <h3 class="text-lg font-semibold text-gray-800 mt-2 mb-1">写真の貼り付け</h3>
+                <p class="text-gray-600 text-sm">
+                    デジタル写真を所定のエリアに挿入します。
+                </p>
+            </div>
+            <div class="workflow-arrow">→</div>
+            <div class="workflow-step">
+                <div class="workflow-step-number">5</div>
+                <h3 class="text-lg font-semibold text-gray-800 mt-2 mb-1">ファイルの保存</h3>
+                <p class="text-gray-600 text-sm">
+                    企業提出用にPDF形式で保存します。
+                </p>
+            </div>
+        </div>
+        <p class="text-center text-sm text-gray-500 mt-4 mb-8">
+            ※ 各ステップの詳細な操作方法については、後日公開予定の動画コンテンツで解説します。
+        </p>
+        ---
+
+        <!-- PDF Download Link Section (Moved here, but still a separate section) -->
+        <h2 class="text-2xl font-bold section-title mt-8 mb-4">2. 履歴書PDFおよびAdobeソフトのダウンロード</h2>
+        <p class="text-center text-gray-600 mb-4">
+            以下のリンクから、多摩大学指定様式の履歴書PDFファイルおよびAdobe Acrobat Reader DCをダウンロードしてください。
+        </p>
+
+        <a href="大学指定様式の履歴書.pdf" target="_blank" class="download-button">
+            多摩大学 履歴書PDF（電子版）をダウンロード
+        </a>
+        <p class="text-center text-sm text-gray-500 mb-8">
+            ※ 上記リンクからPDFファイルをダウンロードし、ご利用ください。
+        </p>
+
+        <!-- Adobe Warning Section -->
+        <div class="warning-box">
+            <div class="warning-icon">⚠️</div>
+            <div>
+                <h2 class="text-2xl font-bold text-red-600 mb-2">【最重要】PDF履歴書のご利用にはAdobeソフトが必須です！</h2>
+                <p class="text-red-700 font-semibold mb-3">
+                    このPDFファイルは、**Adobe Acrobat Reader DC（無料）**または**Adobe Acrobat Pro DC（有償）**をダウンロードして使用しないと、入力したデータが保存されず、操作に不具合が生じます。
+                </p>
+                <p class="text-red-700 font-semibold mb-3">
+                    単にWebブラウザや他のPDFビューアで開いて入力しても、**保存ができません**のでご注意ください。
+                </p>
+                <p class="text-red-700 mb-3">
+                    <strong class="text-red-800">【重要】Adobeソフトは利用中に有料版へのアップグレードを促す表示が出ることがありますが、無料版の「Adobe Acrobat Reader DC」のままで、このPDF履歴書の入力・保存は可能です。有料版を購入する必要はありません。</strong>
+                </p>
+                <p class="text-red-700">
+                    必ず事前にAdobeの公式ソフトをダウンロードし、インストールしてからご利用ください。
+                    <br>
+                    <a href="https://get.adobe.com/jp/reader/" target="_blank" class="text-blue-700 font-bold hover:underline block mt-2">
+                        ▶ PC版 Adobe Acrobat Reader DC (無料) のダウンロードはこちら
+                    </a>
+                    <a href="https://play.google.com/store/apps/details?id=com.adobe.reader&hl=ja" target="_blank" class="text-blue-700 font-bold hover:underline block mt-1">
+                        ▶ Android版 Adobe Acrobat Reader (無料) のダウンロードはこちら
+                    </a>
+                    <a href="https://apps.apple.com/jp/app/adobe-acrobat-reader-pdf/id469337564" target="_blank" class="text-blue-700 font-bold hover:underline block mt-1">
+                        ▶ iOS版 Adobe Acrobat Reader (無料) のダウンロードはこちら
+                    </a>
+                </p>
+            </div>
+        </div>
+
+        <!-- Data Entry Section -->
+        <h2 class="text-2xl font-bold section-title mt-8 mb-4">3. 電子データ（テキスト）の入力方法</h2>
+        <p class="mb-4 text-gray-700">
+            事前に作成したWordファイルなどから、各項目にテキストをコピー＆ペーストで入力すると非常に効率的です。
+        </p>
+
+        <div class="step-item">
+            <div class="step-number">1</div>
+            <div>
+                <h3 class="text-lg font-semibold text-gray-800 mb-1">必要なファイルを準備する</h3>
+                <p class="text-gray-600">
+                    PDF履歴書ファイルと、コピー元のWordファイル（学生時代に力を入れたこと、自己PR、志望動機などの文章がまとまっているもの）を開いておきます。
+                </p>
+            </div>
+        </div>
+
+        <div class="step-item">
+            <div class="step-number">2</div>
+            <div>
+                <h3 class="text-lg font-semibold text-gray-800 mb-1">画面を効率的に配置する</h3>
+                <p class="text-gray-600">
+                    Windowsの画面分割機能などを利用し、PDF履歴書とWordファイルを左右に並べて表示すると、コピー＆ペーストが格段にスムーズになります。
+                </p>
+                <div class="tip-box">
+                    <p class="font-semibold text-blue-800">💡 ヒント</p>
+                    <p class="text-blue-700">
+                        Windowsキー + 左右矢印キーでウィンドウを簡単に左右に配置できます。
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="step-item">
+            <div class="step-number">3</div>
+            <div>
+                <h3 class="text-lg font-semibold text-gray-800 mb-1">テキストをコピー＆ペーストする</h3>
+                <p class="text-gray-600">
+                    Wordファイルから必要な文章を選択しコピー（Ctrl+C）、PDF履歴書の該当する入力欄をクリックしてペースト（Ctrl+V）します。
+                </p>
+            </div>
+        </div>
+
+        <!-- Photo Insertion Section -->
+        <h2 class="text-2xl font-bold section-title mt-8 mb-4">4. 写真の貼り付け方法</h2>
+        <p class="mb-4 text-gray-700">
+            PDF履歴書内の写真エリアには、デジタル写真を簡単に貼り付けることができます。
+        </p>
+
+        <div class="step-item">
+            <div class="step-number">1</div>
+            <div>
+                <h3 class="text-lg font-semibold text-gray-800 mb-1">写真エリアをクリック</h3>
+                <p class="text-gray-600">
+                    PDF履歴書に設けられている写真の貼り付けエリア（通常は枠で囲まれています）をクリックします。
+                </p>
+            </div>
+        </div>
+
+        <div class="step-item">
+            <div class="step-number">2</div>
+            <div>
+                <h3 class="text-lg font-semibold text-gray-800 mb-1">写真を選択して貼り付ける</h3>
+                <p class="text-gray-600">
+                    クリックすると、写真を選択するダイアログが表示されるので、PCに保存されている証明写真などの画像ファイルを選択して貼り付けてください。
+                </p>
+            </div>
+        </div>
+
+        <!-- Saving Notes Section -->
+        <h2 class="text-2xl font-bold section-title mt-8 mb-4">5. 保存時の注意点</h2>
+        <div class="warning-box !bg-blue-50 !border-blue-400">
+            <div class="warning-icon !text-blue-500">💾</div>
+            <div>
+                <h3 class="text-xl font-bold text-blue-700 mb-2">企業に提出する際は必ずPDF形式で保存してください！</h3>
+                <p class="text-blue-800">
+                    入力が完了し、企業に提出する際には、**必ずPDF形式で「名前を付けて保存」**してください。
+                    元のPDFファイルに上書き保存するのではなく、新しいファイルとして保存することで、誤って元のテンプレートを破損するのを防ぎます。
+                </p>
+            </div>
+        </div>
+
+        <!-- Character Limits Section -->
+        <h2 class="text-2xl font-bold section-title mt-8 mb-4">6. 文字数の目安と注意点</h2>
+        <p class="mb-4 text-gray-700">
+            PDF履歴書は入力欄が広めに設定されていますが、情報を詰め込みすぎると文字が小さくなり、読みにくくなることがあります。以下の文字数を参考に、簡潔にまとめましょう。
+        </p>
+        <div class="info-box">
+            <h3 class="text-lg font-semibold text-sky-800 mb-2">【PDF版 履歴書】</h3>
+            <ul class="list-disc list-inside text-sky-700 mb-3">
+                <li>学業、学業以外に力を入れたこと：**200文字程度**まで</li>
+                <li>自己PR、志望動機：**240文字程度**まで</li>
+            </ul>
+            <p class="text-sky-700 font-semibold">
+                **注意：** 文字数が多くなると、自動的に文字サイズが小さくなり見づらくなる場合があります。伝えたい要点を絞り、読みやすさを意識して記入しましょう。
+            </p>
+        </div>
+        <div class="info-box mt-4">
+            <h3 class="text-lg font-semibold text-sky-800 mb-2">【手書き版 履歴書】</h3>
+            <p class="text-sky-700 mb-3">
+                手書き版の履歴書は、PDF版よりも記入スペースが限られています。
+            </p>
+            <ul class="list-disc list-inside text-sky-700 mb-3">
+                <li>学業、学業以外に力を入れたこと：**150文字程度**まで</li>
+                <li>自己PR、志望動機：**240文字程度**まで</li>
+            </ul>
+            <p class="text-sky-700 font-semibold">
+                **注意：** 手書き版を利用する際は、文字数の目安がPDF版と異なるため、特に注意して記入してください。
+            </p>
+        </div>
+
+        <!-- General Advice Section -->
+        <h2 class="text-2xl font-bold section-title mt-8 mb-4">7. その他のアドバイス</h2>
+        <div class="info-box">
+            <h3 class="text-lg font-semibold text-sky-800 mb-2">大学指定履歴書の使用について</h3>
+            <p class="text-sky-700 mb-3">
+                学生のうちは、多摩大学が提供する履歴書を使用することをお勧めします。大学指定の履歴書は、企業が求める基本的な項目が網羅されており、安心して利用できます。
+            </p>
+            <h3 class="text-lg font-semibold text-sky-800 mb-2 mt-4">各種証明書・手書き版履歴書の購入について</h3>
+            <ul class="list-disc list-inside text-sky-700 mb-3">
+                <li>**手書き版履歴書:** キャリア支援課にて、<span class="text-red-600 font-bold">1部10円</span>で販売しています。</li>
+                <li>**成績証明書、卒業見込み証明書、健康診断書:** 学生課前の自動販売機にて、それぞれ<span class="text-red-600 font-bold">1部100円</span>で販売しています。</li>
+            </ul>
+            <p class="text-sky-700 font-semibold">
+                **重要：** 各種証明書の発行には、**学生証が必要**です。忘れずに持参してください。
+            </p>
+        </div>
+
+        <!-- FAQ Section -->
+        <h2 class="text-2xl font-bold section-title mt-8 mb-4">8. よくある質問 (FAQ)</h2>
+        <div class="faq-item">
+            <p class="faq-question">Q1: PDF履歴書を編集したのに、保存ができません。</p>
+            <p class="faq-answer">
+                A1: この問題は、**Adobe Acrobat Reader DC（無料版）**または**Adobe Acrobat Pro DC（有償版）**以外のソフトでファイルを開いている場合に発生します。Webブラウザや他のPDFビューアでは、入力したデータが保存できません。
+                <br>
+                必ず、事前にAdobeの公式ソフトをダウンロード・インストールし、そのソフトでPDFファイルを開いて編集・保存を行ってください。
+            </p>
+        </div>
+
+        <div class="faq-item">
+            <p class="faq-question">Q2: Adobeソフトで開いているはずなのに、編集ができません。</p>
+            <p class="faq-answer">
+                A2: ダウンロードしたPDFファイルをダブルクリックで開いた際に、Adobeソフトが関連付けられていない可能性があります。
+                <br>
+                以下の手順をお試しください：
+                <br>
+                1. PDFファイルを右クリックします。
+                <br>
+                2. 「プログラムから開く」または「別のプログラムを選択」を選びます。
+                <br>
+                3. リストの中から「Adobe Acrobat Reader DC」を選択し、「常にこのアプリを使って.pdfファイルを開く」にチェックを入れて「OK」をクリックします。
+                <br>
+                これにより、次回以降は自動的にAdobeソフトで開かれるようになります。
+            </p>
+        </div>
+
+        <div class="faq-item">
+            <p class="faq-question">Q3: 写真を貼り付けようとしても、うまくいきません。</p>
+            <p class="faq-answer">
+                A3: 写真のファイルがクラウドストレージ（OneDrive, Google Driveなど）やネットワークドライブ上に保存されている場合、直接貼り付けができないことがあります。
+                <br>
+                写真を貼り付ける際は、**必ず一度、お使いのPCやスマートフォンのローカルドライブ（デスクトップ、ドキュメント、ピクチャフォルダなど）に保存してから**、再度貼り付けをお試しください。
+            </p>
+        </div>
+
+
+        <!-- Contact Information Section -->
+        <h2 class="text-2xl font-bold section-title mt-8 mb-4">9. お問い合わせ先</h2>
+        <div class="info-box">
+            <p class="text-sky-700 mb-2">
+                履歴書作成や就職活動に関するご質問がある場合は、キャリア支援課までお問い合わせください。
+            </p>
+            <p class="text-sky-700 mb-2">
+                **電話番号:** <a href="tel:0423377118" class="text-blue-700 hover:underline">042-337-7118</a>
+            </p>
+            <p class="text-sky-700">
+                **メールアドレス:** <a href="mailto:placement@gr.tama.ac.jp" class="text-blue-700 hover:underline">placement@gr.tama.ac.jp</a>
+            </p>
+        </div>
+
+        <div class="tip-box mt-6">
+            <p class="font-semibold text-blue-800">✨ 最後に</p>
+            <p class="text-blue-700">
+                入力が完了したら、必ずAdobeソフトの「ファイル」メニューから「保存」を選択し、データを保存してください。
+                <br>
+                ご自身の就職活動がうまくいくよう、心から応援しています！
+            </p>
+        </div>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('多摩大学履歴書（電子版）作成ガイドが読み込まれました。');
+        });
+    </script>
+</body>
+</html>
